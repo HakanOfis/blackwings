@@ -55,6 +55,8 @@ export const nl: Dict = {
     loading: 'Route berekenen…',
     error: 'We konden die route niet berekenen. Controleer beide locaties.',
     empty: 'Vul beide locaties in om je route en prijs te zien.',
+    mapsUnavailable:
+      'De live kaart is momenteel niet beschikbaar — voer de afstand en tijd handmatig in voor een schatting.',
   },
 
   step2: {

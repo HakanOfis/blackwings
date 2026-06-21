@@ -13,6 +13,31 @@ export function hasMapsKey(): boolean {
   return API_KEY.trim().length > 0
 }
 
+/* --- Auth-failure detection ---------------------------------------------
+   Google calls window.gm_authFailure when the key is invalid or the current
+   domain isn't allowed (RefererNotAllowedMapError). We surface that so the UI
+   can fall back to manual entry instead of showing a broken grey map. */
+type AuthListener = () => void
+const authListeners = new Set<AuthListener>()
+let authFailed = false
+
+export function mapsAuthFailed(): boolean {
+  return authFailed
+}
+
+export function onMapsAuthFailure(cb: AuthListener): () => void {
+  authListeners.add(cb)
+  if (authFailed) cb()
+  return () => authListeners.delete(cb)
+}
+
+if (typeof window !== 'undefined') {
+  ;(window as Window & { gm_authFailure?: () => void }).gm_authFailure = () => {
+    authFailed = true
+    authListeners.forEach((cb) => cb())
+  }
+}
+
 let loaderPromise: Promise<typeof google> | null = null
 
 /** Loads the Google Maps JS API once (singleton). */

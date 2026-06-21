@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Field } from '../Field'
 import { useI18n } from '../../i18n'
-import { computeRoute, hasMapsKey, loadGoogleMaps } from '../../lib/maps'
+import {
+  computeRoute,
+  hasMapsKey,
+  loadGoogleMaps,
+  mapsAuthFailed,
+  onMapsAuthFailure,
+} from '../../lib/maps'
 import type { BookingState } from '../../lib/booking'
 
 interface Props {
@@ -21,10 +27,17 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
   const mapRef = useRef<HTMLDivElement | null>(null)
   const rendererRef = useRef<google.maps.DirectionsRenderer | null>(null)
   const [status, setStatus] = useState<Status>('idle')
+  // True if the key is invalid / domain not allowed, or the map failed to load.
+  const [mapsBroken, setMapsBroken] = useState<boolean>(mapsAuthFailed())
 
-  // Initialise the map once, if a key is available.
+  const useManual = !mapEnabled || mapsBroken
+
+  // Listen for Google's auth failure (RefererNotAllowedMapError, bad key…).
+  useEffect(() => onMapsAuthFailure(() => setMapsBroken(true)), [])
+
+  // Initialise the map once, while it's still usable.
   useEffect(() => {
-    if (!mapEnabled || !mapRef.current) return
+    if (useManual || !mapRef.current) return
     let cancelled = false
 
     loadGoogleMaps()
@@ -41,14 +54,15 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
           polylineOptions: { strokeColor: '#E5B53F', strokeWeight: 5 },
         })
       })
-      .catch(() => {
-        /* map failed to load — manual fallback still works */
+      .catch((err) => {
+        console.error('[Blackwings] Google Maps failed to load:', err)
+        setMapsBroken(true)
       })
 
     return () => {
       cancelled = true
     }
-  }, [mapEnabled])
+  }, [useManual])
 
   async function handleCalculate() {
     if (!pickup.trim() || !dropoff.trim()) return
@@ -58,7 +72,8 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
       onField({ distanceKm: route.distanceKm, durationMin: route.durationMin })
       rendererRef.current?.setDirections(route.directions)
       setStatus('idle')
-    } catch {
+    } catch (err) {
+      console.error('[Blackwings] Route calculation failed:', err)
       setStatus('error')
     }
   }
@@ -85,7 +100,7 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
         />
       </div>
 
-      {mapEnabled ? (
+      {!useManual ? (
         <>
           <button
             type="button"
@@ -98,25 +113,34 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
           <div className="map" ref={mapRef} role="img" aria-label={t.step1.mapLabel} />
         </>
       ) : (
-        // Fallback when no Maps key: manual distance & duration so pricing works.
-        <div className="grid-2">
-          <Field
-            label={`${t.step1.distance} (km)`}
-            type="number"
-            min={0}
-            value={distanceKm ?? ''}
-            onChange={(e) => onField({ distanceKm: e.target.value ? Number(e.target.value) : null })}
-          />
-          <Field
-            label={`${t.step1.duration} (min)`}
-            type="number"
-            min={0}
-            value={durationMin ?? ''}
-            onChange={(e) =>
-              onField({ durationMin: e.target.value ? Number(e.target.value) : null })
-            }
-          />
-        </div>
+        <>
+          {/* Maps key missing or rejected → manual entry so pricing still works. */}
+          {mapEnabled && mapsBroken && (
+            <p className="note note--error" role="alert">
+              {t.step1.mapsUnavailable}
+            </p>
+          )}
+          <div className="grid-2">
+            <Field
+              label={`${t.step1.distance} (km)`}
+              type="number"
+              min={0}
+              value={distanceKm ?? ''}
+              onChange={(e) =>
+                onField({ distanceKm: e.target.value ? Number(e.target.value) : null })
+              }
+            />
+            <Field
+              label={`${t.step1.duration} (min)`}
+              type="number"
+              min={0}
+              value={durationMin ?? ''}
+              onChange={(e) =>
+                onField({ durationMin: e.target.value ? Number(e.target.value) : null })
+              }
+            />
+          </div>
+        </>
       )}
 
       {status === 'error' && (
@@ -132,7 +156,9 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
         </p>
       )}
 
-      {status === 'idle' && distanceKm == null && <p className="note">{t.step1.empty}</p>}
+      {status === 'idle' && distanceKm == null && !useManual && (
+        <p className="note">{t.step1.empty}</p>
+      )}
     </div>
   )
 }

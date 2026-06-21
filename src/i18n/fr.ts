@@ -55,6 +55,8 @@ export const fr: Dict = {
     loading: 'Calcul de l’itinéraire…',
     error: 'Impossible de calculer cet itinéraire. Vérifiez les deux adresses.',
     empty: 'Saisissez les deux adresses pour voir votre itinéraire et le prix.',
+    mapsUnavailable:
+      'La carte en direct est indisponible — saisissez la distance et la durée manuellement pour une estimation.',
   },
 
   step2: {

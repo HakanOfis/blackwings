@@ -53,6 +53,8 @@ export const en = {
     loading: 'Calculating route…',
     error: 'We couldn’t calculate that route. Please check both locations.',
     empty: 'Enter both locations to see your route and price.',
+    mapsUnavailable:
+      'The live map is unavailable right now — enter the distance and time manually to get an estimate.',
   },
 
   step2: {

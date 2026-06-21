@@ -55,6 +55,8 @@ export const tr: Dict = {
     loading: 'Rota hesaplanıyor…',
     error: 'Bu rotayı hesaplayamadık. Lütfen iki noktayı da kontrol et.',
     empty: 'Rota ve fiyatı görmek için iki noktayı da gir.',
+    mapsUnavailable:
+      'Canlı harita şu an kullanılamıyor — tahmin için mesafe ve süreyi elle gir.',
   },
 
   step2: {
