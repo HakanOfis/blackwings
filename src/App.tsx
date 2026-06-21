@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Footer } from './components/Footer'
+import { BookingFlow } from './components/BookingFlow'
 import { DEFAULT_SERVICE, type ServiceId } from './config/services'
 import { useI18n } from './i18n'
 
@@ -28,7 +29,7 @@ export default function App() {
             </h2>
             <p className="booking-card__sub">{t.service[service].tagline}</p>
 
-            {/* Booking flow (map, steps, pricing) is built next. */}
+            <BookingFlow key={service} service={service} />
           </section>
         </div>
       </main>
