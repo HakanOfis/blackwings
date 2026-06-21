@@ -2,13 +2,14 @@
   "name": "Blackwings — Ride, Taxi & Shuttle",
   "short_name": "Blackwings",
   "description": "Book a ride, taxi or shuttle in one place. Live route, instant price estimate, fast confirmation.",
-  "start_url": "/",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
   "background_color": "#0A0C10",
   "theme_color": "#0A0C10",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "./favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
