@@ -6,6 +6,18 @@ choose date/time and vehicle, then confirm by email or WhatsApp.
 
 Built with **Vite + React + TypeScript**. Dark-first "Obsidian & Ember" brand.
 
+**Live:** https://hakanofis.github.io/blackwings/
+
+## Deploy
+
+Every push to `main` builds and publishes to GitHub Pages via
+`.github/workflows/deploy.yml`. The Maps key is injected at build time from the
+repo secret `VITE_GOOGLE_MAPS_API_KEY`.
+
+For the **live map** to authenticate, the key's *Application restrictions →
+Website referrers* must include `https://hakanofis.github.io/*`. Without that
+the deployed site still works and falls back to manual distance entry.
+
 ## Run it
 
 ```bash
