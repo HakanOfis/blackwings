@@ -31,6 +31,9 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
   const [mapsBroken, setMapsBroken] = useState<boolean>(mapsAuthFailed())
 
   const useManual = !mapEnabled || mapsBroken
+  // Also offer manual entry if the route call was denied (e.g. Directions API
+  // not enabled on the key), so the user is never blocked.
+  const showManual = useManual || status === 'error'
 
   // Listen for Google's auth failure (RefererNotAllowedMapError, bad key…).
   useEffect(() => onMapsAuthFailure(() => setMapsBroken(true)), [])
@@ -100,7 +103,7 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
         />
       </div>
 
-      {!useManual ? (
+      {!useManual && (
         <>
           <button
             type="button"
@@ -112,13 +115,19 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
           </button>
           <div className="map" ref={mapRef} role="img" aria-label={t.step1.mapLabel} />
         </>
-      ) : (
+      )}
+
+      {status === 'error' && (
+        <p className="note note--error" role="alert">
+          {t.step1.error}
+        </p>
+      )}
+
+      {showManual && (
         <>
-          {/* Maps key missing or rejected → manual entry so pricing still works. */}
-          {mapEnabled && mapsBroken && (
-            <p className="note note--error" role="alert">
-              {t.step1.mapsUnavailable}
-            </p>
+          {/* Key missing/rejected, or route denied → manual entry so pricing works. */}
+          {(mapsBroken || status === 'error') && (
+            <p className="note">{t.step1.mapsUnavailable}</p>
           )}
           <div className="grid-2">
             <Field
@@ -141,12 +150,6 @@ export function RouteStep({ pickup, dropoff, distanceKm, durationMin, onField }:
             />
           </div>
         </>
-      )}
-
-      {status === 'error' && (
-        <p className="note note--error" role="alert">
-          {t.step1.error}
-        </p>
       )}
 
       {status === 'idle' && distanceKm != null && durationMin != null && (
