@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BlackWings – One-Page Booking</title>
+<link rel="stylesheet" href="assets/style.css?v=1">
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="inner">
+    <h1>BlackWings Airport & City Transfers</h1>
+    <p>One-page booking • Live route on the map • Instant price</p>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- PROGRESS -->
+<div class="progress" id="progress">
+  <div class="dot active" data-step="step1">1</div><div class="bar fill"></div>
+  <div class="dot" data-step="step2">2</div><div class="bar"></div>
+  <div class="dot" data-step="step3">3</div><div class="bar"></div>
+  <div class="dot" data-step="step4">4</div><div class="bar"></div>
+  <div class="dot" data-step="step5">5</div>
+</div>
+
+<!-- STEP 1 -->
+<section class="step" id="step1">
+  <h2>Step 1 — Route</h2>
+  <p class="sub">Choose pickup & drop-off. We’ll draw the <b>red route</b> and calculate distance & time.</p>
+
+  <div class="grid">
+    <div>
+      <label>Pickup Location</label>
+      <input id="pickup" type="text" placeholder="e.g. Mortsel, Belgium" autocomplete="off">
+    </div>
+    <div>
+      <label>Drop-off Location</label>
+      <input id="dropoff" type="text" placeholder="e.g. Brussels Airport (BRU)" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="row-actions" style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn" id="btnRoute">Calculate</button>
+    <button class="btn light" id="btnNext1">Next: Trip Details</button>
+  </div>
+
+  <div id="calcResult" class="note" style="display:none;margin-top:14px"></div>
+  <div id="calcError" class="warn" style="display:none"></div>
+
+  <div id="map"></div>
+</section>
+
+<!-- STEP 2 -->
+<section class="step" id="step2" style="display:none">
+  <h2>Step 2 — Trip Details</h2>
+  <p class="sub">Pick your date & time and tell us how many passengers.</p>
+  <div class="grid-3">
+    <div><label>Date</label><input id="date" type="date"></div>
+    <div><label>Time</label><input id="time" type="time"></div>
+    <div><label>Passengers</label><input id="passengers" type="number" min="1" value="1"></div>
+  </div>
+  <div class="row-actions" style="margin-top:12px;display:flex;gap:10px">
+    <button class="btn light" onclick="goTo('step1')">Back</button>
+    <button class="btn" onclick="goTo('step3')">Next: Choose Vehicle</button>
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="step" id="step3" style="display:none">
+  <h2>Step 3 — Choose Vehicle</h2>
+  <p class="sub">Select your car. (Price multiplier applies to base price.)</p>
+
+  <div class="cars">
+    <div class="car" data-name="Lexus" data-multi="1.00">
+      <div class="img"><img src="assets/lexus.jpg" class="shrink"></div>
+      <div class="name">Lexus · ×1.00</div>
+    </div>
+    <div class="car" data-name="Tesla Model Y" data-multi="1.15">
+      <div class="img"><img src="assets/tesla-model-y.jpg" class="shrink"></div>
+      <div class="name">Tesla Model Y · ×1.15</div>
+    </div>
+    <div class="car" data-name="Renault Arkana" data-multi="0.95">
+      <div class="img"><img src="assets/renault-arkana.jpg"></div>
+      <div class="name">Renault Arkana · ×0.95</div>
+    </div>
+  </div>
+
+  <div class="row-actions" style="margin-top:12px;display:flex;gap:10px">
+    <button class="btn light" onclick="goTo('step2')">Back</button>
+    <button class="btn" onclick="goTo('step4')">Next: Contact</button>
+  </div>
+</section>
+
+<!-- STEP 4 -->
+<section class="step" id="step4" style="display:none">
+  <h2>Step 4 — Contact</h2>
+  <p class="sub">We’ll confirm your booking as soon as we receive your request.</p>
+
+  <div class="grid">
+    <div><label>Full Name</label><input id="name" type="text"></div>
+    <div><label>Email</label><input id="email" type="email"></div>
+  </div>
+  <div class="grid">
+    <div><label>Phone (WhatsApp)</label><input id="phone" type="tel"></div>
+    <div><label>Notes</label><input id="notes" type="text"></div>
+  </div>
+
+  <div class="row-actions" style="margin-top:12px;display:flex;gap:10px">
+    <button class="btn light" onclick="goTo('step3')">Back</button>
+    <button class="btn" onclick="buildSummary();goTo('step5')">Next: Review</button>
+  </div>
+</section>
+
+<!-- STEP 5 -->
+<section class="step" id="step5" style="display:none">
+  <h2>Step 5 — Review & Send</h2>
+
+  <div class="summary">
+    <p id="sRoute"></p>
+    <p id="sTime"></p>
+    <p id="sVehicle"></p>
+    <p id="sContact"></p>
+    <p class="price" id="sPrice"></p>
+  </div>
+
+  <div class="row-actions" style="margin-top:12px;display:flex;gap:10px">
+    <button class="btn" id="sendMail">Send by Email</button>
+    <button class="btn light" id="sendWA">Message on WhatsApp</button>
+  </div>
+</section>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+  <div class="footer">
+    <h4>BlackWings International & Consulting BV</h4>
+    <div>Excelsiorlaan 31, <b>1930 Zaventem</b>, Belgium</div>
+    <div class="small">
+      Phone (WhatsApp): +32 491 25 59 54<br>
+      Email: <a href="mailto:info@blackwings.be">info@blackwings.be</a>
+    </div>
+    <div class="small">© BlackWings International & Consulting BV</div>
+  </div>
+</div>
+
+<script>
+function sendEmail(){
+  const subject=encodeURIComponent('New Transfer Request');
+  const body=encodeURIComponent('Transfer request via BlackWings website');
+  window.location.href=`mailto:info@blackwings.be?subject=${subject}&body=${body}`;
+}
+</script>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBB3f6S3YNUd7QndOoL4MYGQ6TycnaOLgg&libraries=places&callback=initAll">
+</script>
+
+</body>
+</html>

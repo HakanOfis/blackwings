@@ -1,0 +1,78 @@
+/* =========================================================================
+   Blackwings — Brand tokens (SINGLE SOURCE OF TRUTH)
+   "Obsidian & Ember" — dark-first, gold accent.
+   Change the brand here once; the whole app follows.
+   ========================================================================= */
+
+:root {
+  /* ---- Core surfaces (obsidian) ---- */
+  --bw-black: #0a0c10;
+  --bw-ink: #12161d; /* app background */
+  --bw-surface: #1a1f28; /* card */
+  --bw-surface-raised: #222834; /* raised card / inputs */
+  --bw-border: #2e3744;
+  --bw-border-strong: #3c4757;
+
+  /* ---- Text ---- */
+  --bw-text: #f1f4f9;
+  --bw-text-muted: #97a3b4;
+  --bw-text-faint: #6b7686;
+
+  /* ---- Primary (ember gold — the "wing") ---- */
+  --bw-primary: #e5b53f;
+  --bw-primary-hover: #f2c65c;
+  --bw-primary-press: #c99a2e;
+  --bw-on-primary: #1a1206; /* dark text on gold */
+  --bw-primary-soft: rgba(229, 181, 63, 0.12); /* tints, focus rings */
+
+  /* ---- Accent (cool, used sparingly: links / info) ---- */
+  --bw-accent: #6c8cff;
+
+  /* ---- Semantic ---- */
+  --bw-success: #34c77b;
+  --bw-success-soft: rgba(52, 199, 123, 0.14);
+  --bw-warning: #f2994a;
+  --bw-warning-soft: rgba(242, 153, 74, 0.14);
+  --bw-danger: #f2555a;
+  --bw-danger-soft: rgba(242, 85, 90, 0.14);
+  --bw-info: #6c8cff;
+  --bw-info-soft: rgba(108, 140, 255, 0.14);
+
+  /* ---- Typography ---- */
+  --bw-font-display: 'Space Grotesk', system-ui, sans-serif;
+  --bw-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --bw-fs-hero: clamp(2rem, 5vw, 3.25rem);
+  --bw-fs-h2: clamp(1.35rem, 3vw, 1.9rem);
+  --bw-fs-h3: 1.15rem;
+  --bw-fs-body: 1rem;
+  --bw-fs-sm: 0.875rem;
+  --bw-fs-xs: 0.75rem;
+
+  /* ---- Radii ---- */
+  --bw-radius-sm: 8px;
+  --bw-radius: 12px;
+  --bw-radius-lg: 16px;
+  --bw-radius-pill: 999px;
+
+  /* ---- Spacing scale ---- */
+  --bw-space-1: 4px;
+  --bw-space-2: 8px;
+  --bw-space-3: 12px;
+  --bw-space-4: 16px;
+  --bw-space-5: 24px;
+  --bw-space-6: 32px;
+  --bw-space-7: 48px;
+
+  /* ---- Elevation ---- */
+  --bw-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --bw-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  --bw-shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
+
+  /* ---- Focus ring (accessibility) ---- */
+  --bw-focus-ring: 0 0 0 3px var(--bw-primary-soft), 0 0 0 1px var(--bw-primary);
+
+  /* ---- Layout ---- */
+  --bw-container: 1100px;
+  --bw-transition: 0.18s ease;
+}
