@@ -20,12 +20,10 @@ export function estimatePrice({
   vehicleMultiplier,
   service,
 }: EstimateInput): number {
-  const raw =
-    (PRICING.baseFare + PRICING.perKm * distanceKm + PRICING.perMin * durationMin) *
-    vehicleMultiplier *
-    PRICING.serviceModifier[service]
+  const r = PRICING.byService[service]
+  const raw = (r.baseFare + r.perKm * distanceKm + r.perMin * durationMin) * vehicleMultiplier
 
-  return Math.max(PRICING.minimumFare, Math.round(raw))
+  return Math.max(r.minimumFare, Math.round(raw))
 }
 
 /** Format a number as a localised currency string. */

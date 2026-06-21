@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240">
+  <rect width="400" height="240" fill="#11151c"/>
+  <ellipse cx="205" cy="196" rx="150" ry="13" fill="#000" opacity="0.35"/>
+  <!-- body -->
+  <path d="M44 176 L44 104 Q44 88 64 84 L168 66 Q196 62 224 68 L330 92 Q360 100 360 132 L360 176 Z"
+        fill="#cfd3da"/>
+  <path d="M44 176 L44 158 L360 158 L360 176 Z" fill="#aeb4bd"/>
+  <!-- gold brand stripe -->
+  <rect x="44" y="150" width="316" height="7" fill="#E5B53F"/>
+  <!-- windows -->
+  <rect x="74" y="92" width="58" height="36" rx="6" fill="#27303d"/>
+  <rect x="142" y="88" width="58" height="40" rx="6" fill="#27303d"/>
+  <rect x="210" y="92" width="46" height="36" rx="6" fill="#27303d"/>
+  <path d="M268 96 L322 104 Q342 108 346 128 L300 128 L286 100 Z" fill="#27303d"/>
+  <!-- wheels -->
+  <circle cx="118" cy="178" r="27" fill="#0b0e13"/>
+  <circle cx="118" cy="178" r="12" fill="#3c4757"/>
+  <circle cx="302" cy="178" r="27" fill="#0b0e13"/>
+  <circle cx="302" cy="178" r="12" fill="#3c4757"/>
+  <!-- badge -->
+  <text x="205" y="226" text-anchor="middle" font-family="system-ui, sans-serif"
+        font-size="15" font-weight="700" fill="#97a3b4">Mercedes · 18</text>
+</svg>

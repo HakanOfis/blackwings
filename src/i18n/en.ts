@@ -67,7 +67,8 @@ export const en = {
 
   step3: {
     title: 'Choose your vehicle',
-    sub: 'Select a car. A price multiplier applies to the base fare.',
+    sub: 'Select a vehicle. A price multiplier applies to the base fare.',
+    seats: 'seats',
   },
 
   step4: {

@@ -69,7 +69,8 @@ export const nl: Dict = {
 
   step3: {
     title: 'Kies je voertuig',
-    sub: 'Selecteer een wagen. Op de basisprijs geldt een prijsfactor.',
+    sub: 'Selecteer een voertuig. Op de basisprijs geldt een prijsfactor.',
+    seats: 'plaatsen',
   },
 
   step4: {

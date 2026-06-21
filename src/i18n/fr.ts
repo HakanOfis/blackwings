@@ -69,7 +69,8 @@ export const fr: Dict = {
 
   step3: {
     title: 'Choisissez votre véhicule',
-    sub: 'Sélectionnez une voiture. Un coefficient s’applique au tarif de base.',
+    sub: 'Sélectionnez un véhicule. Un coefficient s’applique au tarif de base.',
+    seats: 'places',
   },
 
   step4: {

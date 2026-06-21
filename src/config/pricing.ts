@@ -1,34 +1,34 @@
 /* =========================================================================
-   Blackwings — Pricing configuration.
+   Blackwings — Pricing configuration, per service.
+   Each service is priced independently. The shown price is an *estimate*.
 
-   ⚠️⚠️  PLACEHOLDER RATES — CONFIRM / REPLACE WITH REAL BLACKWINGS TARIFFS  ⚠️⚠️
-   These numbers are reasonable defaults so the estimator works end-to-end.
-   They are NOT the real Blackwings prices. Change them here in ONE place;
-   the whole app follows. The shown price is an *estimate* only.
+   ride / taxi:  ⚠️ PLACEHOLDER rates — CONFIRM / REPLACE with real tariffs.
+   shuttle:      set by the owner — base €50 + €12/km.
    ========================================================================= */
 
 import type { ServiceId } from './services'
+
+export interface ServiceRates {
+  /** Fixed start fee, applied once per trip. */
+  baseFare: number
+  /** Price per kilometre. */
+  perKm: number
+  /** Price per minute of travel time. */
+  perMin: number
+  /** Floor price — a trip never costs less than this. */
+  minimumFare: number
+}
 
 export const PRICING = {
   currency: 'EUR',
   currencySymbol: '€',
 
-  /** Fixed start fee, applied once per trip. (CONFIRM) */
-  baseFare: 5,
-  /** Price per kilometre. (CONFIRM) */
-  perKm: 1.8,
-  /** Price per minute of travel time. (CONFIRM) */
-  perMin: 0.4,
-  /** Floor price — a trip never costs less than this. (CONFIRM) */
-  minimumFare: 15,
-
-  /**
-   * Per-service modifier. Shuttle is shared, so it is cheaper. Ride and taxi
-   * use the full fare. (CONFIRM)
-   */
-  serviceModifier: {
-    ride: 1.0,
-    taxi: 1.0,
-    shuttle: 0.6,
-  } satisfies Record<ServiceId, number>,
+  byService: {
+    // ⚠️ PLACEHOLDER — CONFIRM
+    ride: { baseFare: 5, perKm: 1.8, perMin: 0.4, minimumFare: 15 },
+    // ⚠️ PLACEHOLDER — CONFIRM
+    taxi: { baseFare: 5, perKm: 1.8, perMin: 0.4, minimumFare: 15 },
+    // Shuttle — set by owner: opening €50, €12 per km.
+    shuttle: { baseFare: 50, perKm: 12, perMin: 0, minimumFare: 50 },
+  } satisfies Record<ServiceId, ServiceRates>,
 } as const

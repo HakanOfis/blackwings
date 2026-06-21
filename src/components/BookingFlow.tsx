@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Field } from './Field'
 import { Stepper } from './Stepper'
 import { RouteStep } from './steps/RouteStep'
-import { VEHICLES } from '../config/vehicles'
+import { vehiclesFor } from '../config/vehicles'
 import { BRAND } from '../config/brand'
 import type { ServiceId } from '../config/services'
 import { EMPTY_BOOKING, type BookingState } from '../lib/booking'
@@ -19,7 +19,8 @@ export function BookingFlow({ service }: { service: ServiceId }) {
 
   const patch = (p: Partial<BookingState>) => setBooking((b) => ({ ...b, ...p }))
 
-  const vehicle = VEHICLES.find((v) => v.id === booking.vehicleId) ?? null
+  const vehicles = vehiclesFor(service)
+  const vehicle = vehicles.find((v) => v.id === booking.vehicleId) ?? null
 
   const price = useMemo(() => {
     if (booking.distanceKm == null || booking.durationMin == null || !vehicle) return null
@@ -125,7 +126,7 @@ export function BookingFlow({ service }: { service: ServiceId }) {
           <h2 className="step-title">{t.step3.title}</h2>
           <p className="step-sub">{t.step3.sub}</p>
           <div className="vehicles" role="radiogroup" aria-label={t.step3.title}>
-            {VEHICLES.map((v) => {
+            {vehicles.map((v) => {
               const selected = booking.vehicleId === v.id
               return (
                 <button
@@ -138,7 +139,8 @@ export function BookingFlow({ service }: { service: ServiceId }) {
                 >
                   <img className="vehicle__img" src={v.image} alt={v.name} />
                   <span className="vehicle__name">
-                    {v.name} · ×{v.multiplier.toFixed(2)}
+                    {v.name}
+                    {v.capacity ? ` · ${v.capacity} ${t.step3.seats}` : ` · ×${v.multiplier.toFixed(2)}`}
                   </span>
                 </button>
               )

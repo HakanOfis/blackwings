@@ -70,6 +70,7 @@ export const tr: Dict = {
   step3: {
     title: 'Aracını seç',
     sub: 'Bir araç seç. Taban ücrete bir fiyat çarpanı uygulanır.',
+    seats: 'kişilik',
   },
 
   step4: {
