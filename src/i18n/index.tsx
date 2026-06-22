@@ -22,11 +22,11 @@ function isLang(value: string): value is Lang {
 }
 
 function detectLang(): Lang {
+  // Honour an explicit saved choice; otherwise always open in English.
   const stored = typeof localStorage !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null
   if (stored && isLang(stored)) return stored
 
-  const nav = typeof navigator !== 'undefined' ? navigator.language.slice(0, 2).toLowerCase() : 'en'
-  return isLang(nav) ? nav : 'en'
+  return 'en'
 }
 
 interface I18nContextValue {
