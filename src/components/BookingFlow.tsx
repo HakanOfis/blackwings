@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Field } from './Field'
 import { Stepper } from './Stepper'
 import { RouteStep } from './steps/RouteStep'
@@ -21,6 +21,15 @@ export function BookingFlow({ service }: { service: ServiceId }) {
 
   const vehicles = vehiclesFor(service)
   const vehicle = vehicles.find((v) => v.id === booking.vehicleId) ?? null
+
+  // When a service offers a single vehicle, pre-select it so the user isn't
+  // asked to choose from a list of one.
+  useEffect(() => {
+    if (vehicles.length === 1 && !booking.vehicleId) {
+      patch({ vehicleId: vehicles[0].id })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vehicles.length])
 
   const price = useMemo(() => {
     if (booking.distanceKm == null || booking.durationMin == null || !vehicle) return null
