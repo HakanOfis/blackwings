@@ -134,7 +134,11 @@ export function BookingFlow({ service }: { service: ServiceId }) {
         <div className="step-body">
           <h2 className="step-title">{t.step3.title}</h2>
           <p className="step-sub">{t.step3.sub}</p>
-          <div className="vehicles" role="radiogroup" aria-label={t.step3.title}>
+          <div
+            className={'vehicles' + (vehicles.length === 1 ? ' vehicles--single' : '')}
+            role="radiogroup"
+            aria-label={t.step3.title}
+          >
             {vehicles.map((v) => {
               const selected = booking.vehicleId === v.id
               return (

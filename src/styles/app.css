@@ -376,6 +376,20 @@
   height: 150px;
   object-fit: cover;
 }
+
+/* A single service vehicle (e.g. the shuttle's Mercedes Vito): show the whole
+   photo — scaled to fit, never cropped — in one centered, wider card. */
+.vehicles--single {
+  grid-template-columns: 1fr;
+  max-width: 560px;
+  margin-inline: auto;
+}
+.vehicles--single .vehicle__img {
+  height: 240px;
+  object-fit: contain;
+  background: #fff;
+  padding: 16px;
+}
 .vehicle__name {
   display: block;
   padding: 10px 12px;
