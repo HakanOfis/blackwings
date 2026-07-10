@@ -1,6 +1,8 @@
 /* =========================================================================
    Blackwings — Price estimator. Pure functions, no side effects.
-   estimate = max(minimumFare, (base + perKm·km + perMin·min) · vehicle · service)
+   billableKm = max(0, km − freeKm)
+   estimate   = max(minimumFare,
+                    (base + perKm·billableKm + perMin·min) · vehicle · service)
    ========================================================================= */
 
 import { PRICING } from '../config/pricing'
@@ -21,7 +23,8 @@ export function estimatePrice({
   service,
 }: EstimateInput): number {
   const r = PRICING.byService[service]
-  const raw = (r.baseFare + r.perKm * distanceKm + r.perMin * durationMin) * vehicleMultiplier
+  const billableKm = Math.max(0, distanceKm - r.freeKm)
+  const raw = (r.baseFare + r.perKm * billableKm + r.perMin * durationMin) * vehicleMultiplier
 
   return Math.max(r.minimumFare, Math.round(raw))
 }
